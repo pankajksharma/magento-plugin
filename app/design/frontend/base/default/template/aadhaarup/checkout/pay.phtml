@@ -1,0 +1,13 @@
+<form name="order" action="<?= $this->getPaymentUrl() ?>" method="post">
+<input type=hidden name="key" value="<?= $this->getKey() ?>">
+<input type=hidden name="transaction[amount]" value="<?= $this->getAmount() ?>">
+<input type=hidden name="transaction[order_id]" value="<?= $this->getOrderId() ?>">
+<input type=hidden name="transaction[response_url]" value="<?= $this->getResponseURL() ?>">
+<input type=hidden name="checksum" value="<?= $this->getChecksum() ?>">
+<noscript>
+	<input type="submit" value="Proceed">
+</noscript>
+</form>
+<script type="text/javascript">
+	// document.order.submit();
+</script>

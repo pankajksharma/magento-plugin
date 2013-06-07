@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!--
+
+-->
+<config>
+    <modules>
+        <AadhaarUp_CheckOut>
+            <active>true</active>
+            <codePool>community</codePool>
+        </AadhaarUp_CheckOut>
+    </modules>
+</config>
