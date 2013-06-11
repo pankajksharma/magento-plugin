@@ -1,21 +1,24 @@
 <?php
 	class AadhaarUp_CheckOut_Block_Pay extends Mage_Checkout_Block_Cart {
 		
-		private $merchantKey="";
-		private $merchantSecret = 'c252784899fe8e43a94abeddd1b7fd00';
+		private $aadadharup_url = "http://127.0.0.1:3001/api/v1/transactions";
+		private $merchantKey="d00414734592ad6cb18cf5b75a654616";
+		private $merchantSecret = '3795a80f96d6df4bcb0ac48e04c58efb';
 
 		private function checksum(){
 			$data = array(
 		        "order_id" => $this->getOrderId(),
 		        "amount" =>  $this->getAmount(),
 		        "response_url" => $this->getResponseURL(),
-		        "key" => $this->getMerchantKey()
+		        "key" => $this->merchantKey
 	      	);
-	      	$secret = $merchantSecret;
-	      	foreach ($data.sort() as $data => $value) {
+
+	      	$secret = $this->merchantSecret;
+	      	ksort($data);
+	      	foreach ( $data as $data => $value) {
 	      		$secret.=('|'.$value);
 	      	}
-	      	return md5($secret);
+	      	return strtoupper(md5($secret));
 		}
 
 	    public function chooseTemplate()
@@ -28,10 +31,10 @@
 	        }
 	    }
 	    public function getPaymentUrl(){
-	    	return "http://test.mintzone.in/api/v1/transactions";
+	    	return $this->aadadharup_url;
 	    }
 	    public function getMerchantKey(){
-	    	return $merchantKey;
+	    	return $this->merchantKey;
 	    }
 	    public function getAmount(){
 	    	return Mage::getModel('checkout/cart')->getQuote()->getGrandTotal();
@@ -40,10 +43,10 @@
 	    	return $this->getUrl('checkout_with_aadhaarup/response');
 	    }
 	    public function getOrderId(){
-	    	return $order = Mage::getModel('sales/order')->load($orderId);
+	    	return "abc2123";
 	    }
 	    public function getCheckSum(){
 	    	return $this->checksum();
 	    }
 	}
-?>
+?>	

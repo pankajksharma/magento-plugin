@@ -28,11 +28,12 @@
             <checkout>
                 <rewrite>
                     <cart>AadhaarUp_CheckOut_Block_Cart</cart>
-                    <pay>AadhaarUp_CheckOut_Block_Pay</pay>                    
+                    <pay>AadhaarUp_CheckOut_Block_Pay</pay>  
+                    <response>AadhaarUp_CheckOut_Block_Response</response>
                 </rewrite>
             </checkout>
         </blocks>
-        <resources>
+        <!-- <resources>
             <aadhaarup_checkout_setup>
                 <setup>
                     <module>AadhaarUp_CheckOut</module>
@@ -40,5 +41,14 @@
                 </setup>
             </aadhaarup_checkout_setup>
         </resources>
+        <models>
+            <checkout>
+                <class>AaadhaarUp_CheckOut_Model</class>
+                <resourceModel>checkout_resource</resourceModel>
+            </checkout>
+            <checkout_resource>
+                <class>AadhaarUp_CheckOut_Model_Resource</class>
+            </checkout_resource>
+        </models> -->
     </global>
 </config>
