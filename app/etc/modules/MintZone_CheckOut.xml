@@ -6,7 +6,7 @@
     <modules>
         <MintZone_CheckOut>
             <active>true</active>
-            <codePool>community</codePool>
+            <codePool>local</codePool>
         </MintZone_CheckOut>
     </modules>
 </config>
