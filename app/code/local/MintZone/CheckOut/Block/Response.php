@@ -1,5 +1,5 @@
 <?php
-	class AadhaarUp_CheckOut_Block_Response extends Mage_Checkout_Block_Cart {
+	class MintZone_CheckOut_Block_Response extends Mage_Checkout_Block_Cart {
 
 		public function chooseTemplate()
 	    {

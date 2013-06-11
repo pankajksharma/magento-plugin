@@ -1,24 +1,24 @@
 <?xml version="1.0"?>
 <config>
     <modules>
-        <AadhaarUp_CheckOut>
+        <MintZone_CheckOut>
             <version>1.0.0</version>
-        </AadhaarUp_CheckOut>
+        </MintZone_CheckOut>
     </modules>
     <frontend>
         <routers>
             <checkout>
                 <use>standard</use>
                 <args>
-                    <module>AadhaarUp_CheckOut</module>
-                    <frontName>checkout_with_aadhaarup</frontName>
+                    <module>MintZone_CheckOut</module>
+                    <frontName>checkout_with_mintzone</frontName>
                 </args>
             </checkout>
         </routers>  
         <layout>
             <updates>
                 <checkout>
-                    <file>aadhaarup_checkout.xml</file>
+                    <file>mintzone_checkout.xml</file>
                 </checkout>
             </updates>
         </layout>
@@ -27,27 +27,27 @@
         <blocks>
             <checkout>
                 <rewrite>
-                    <cart>AadhaarUp_CheckOut_Block_Cart</cart>
-                    <pay>AadhaarUp_CheckOut_Block_Pay</pay>  
-                    <response>AadhaarUp_CheckOut_Block_Response</response>
+                    <cart>MintZone_CheckOut_Block_Cart</cart>
+                    <pay>MintZone_CheckOut_Block_Pay</pay>  
+                    <response>MintZone_CheckOut_Block_Response</response>
                 </rewrite>
             </checkout>
         </blocks>
         <!-- <resources>
-            <aadhaarup_checkout_setup>
+            <mintzone_checkout_setup>
                 <setup>
-                    <module>AadhaarUp_CheckOut</module>
-                    <class>AadhaarUp_CheckOut_Model_Resource_Setup</class>
+                    <module>MintZone_CheckOut</module>
+                    <class>MintZone_CheckOut_Model_Resource_Setup</class>
                 </setup>
-            </aadhaarup_checkout_setup>
+            </mintzone_checkout_setup>
         </resources>
         <models>
             <checkout>
-                <class>AaadhaarUp_CheckOut_Model</class>
+                <class>MintZone_CheckOut_Model</class>
                 <resourceModel>checkout_resource</resourceModel>
             </checkout>
             <checkout_resource>
-                <class>AadhaarUp_CheckOut_Model_Resource</class>
+                <class>MintZone_CheckOut_Model_Resource</class>
             </checkout_resource>
         </models> -->
     </global>

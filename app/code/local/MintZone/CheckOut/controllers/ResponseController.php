@@ -1,5 +1,5 @@
 <?php
-	class AadhaarUp_CheckOut_ResponseController extends Mage_Core_Controller_Front_Action {        
+	class MintZone_CheckOut_ResponseController extends Mage_Core_Controller_Front_Action {        
 	    public function indexAction() {
 	    	$responseData = Mage::app()->getRequest()->getPost();
 	    	$_SESSION['response'] = $responseData;

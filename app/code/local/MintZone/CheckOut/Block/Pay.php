@@ -1,5 +1,5 @@
 <?php
-	class AadhaarUp_CheckOut_Block_Pay extends Mage_Checkout_Block_Cart {
+	class MintZone_CheckOut_Block_Pay extends Mage_Checkout_Block_Cart {
 		
 		private $aadadharup_url = "http://127.0.0.1:3001/api/v1/transactions";
 		private $merchantKey="d00414734592ad6cb18cf5b75a654616";
@@ -40,7 +40,7 @@
 	    	return Mage::getModel('checkout/cart')->getQuote()->getGrandTotal();
 	    }
 	    public function getResponseURL(){
-	    	return $this->getUrl('checkout_with_aadhaarup/response');
+	    	return $this->getUrl('checkout_with_mintzone/response');
 	    }
 	    public function getOrderId(){
 	    	return "abc2123";

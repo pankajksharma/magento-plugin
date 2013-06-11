@@ -4,9 +4,9 @@
 -->
 <config>
     <modules>
-        <AadhaarUp_CheckOut>
+        <MintZone_CheckOut>
             <active>true</active>
             <codePool>community</codePool>
-        </AadhaarUp_CheckOut>
+        </MintZone_CheckOut>
     </modules>
 </config>

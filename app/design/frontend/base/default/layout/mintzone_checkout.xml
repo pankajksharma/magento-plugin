@@ -20,8 +20,8 @@
 
         <reference name="content">
             <block type="checkout/response" name="checkout.response">
-                <action method="setSuccessTemplate"><value>aadhaarup/response/success.phtml</value></action>
-                <action method="setFailureTemplate"><value>aadhaarup/response/failure.phtml</value></action>
+                <action method="setSuccessTemplate"><value>mintzone/response/success.phtml</value></action>
+                <action method="setFailureTemplate"><value>mintzone/response/failure.phtml</value></action>
                 <action method="chooseTemplate"/>
             </block>
         </reference>
@@ -35,7 +35,7 @@
 
         <reference name="content">
         	<block type="checkout/pay" name="checkout.pay">
-        		<action method="setPayTemplate"><value>aadhaarup/checkout/pay.phtml</value></action>
+        		<action method="setPayTemplate"><value>mintzone/checkout/pay.phtml</value></action>
                 <action method="setEmptyTemplate"><value>checkout/cart/noItems.phtml</value></action>
                 <action method="chooseTemplate"/>
             </block>
@@ -52,7 +52,7 @@
 
         <reference name="content">
             <block type="checkout/cart" name="checkout.cart">
-                <action method="setCartTemplate"><value>aadhaarup/checkout/cart.phtml</value></action>
+                <action method="setCartTemplate"><value>mintzone/checkout/cart.phtml</value></action>
                 <action method="setEmptyTemplate"><value>checkout/cart/noItems.phtml</value></action>
                 <action method="chooseTemplate"/>
                 <action method="addItemRender"><type>simple</type><block>checkout/cart_item_renderer</block><template>checkout/cart/item/default.phtml</template></action>
