@@ -1,3 +1,11 @@
-<?php
-	echo "Failure!";
-?>
+<div>
+	<p style="text-align:center; color: red; line-height: 23px;">
+		Your transaction Failed.
+	</p>
+	<div>
+		<h3>Details:</h3>
+		<p>Order ID: <?= $this->getParam("order_id"); ?></p>
+		<p>MintZone Transaction ID: <?= $this->getParam("txnid"); ?></p>
+		<p>For further Enquiry Please contact: <?= $this->getContactDetails(); ?></p>
+	</div>
+</div>

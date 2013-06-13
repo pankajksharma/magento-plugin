@@ -1,9 +1,7 @@
 <?php
-	class MintZone_CheckOut_Block_Pay extends Mage_Checkout_Block_Cart {
+	class MintZone_CheckOut_Block_Pay extends MintZone_CheckOut_Block_Abstraction {
 		
-		private $aadadharup_url = "http://127.0.0.1:3001/api/v1/transactions";
-		private $merchantKey="d00414734592ad6cb18cf5b75a654616";
-		private $merchantSecret = '3795a80f96d6df4bcb0ac48e04c58efb';
+		private $_order_id = null;
 
 		private function checksum(){
 			$data = array(
@@ -31,7 +29,7 @@
 	        }
 	    }
 	    public function getPaymentUrl(){
-	    	return $this->aadadharup_url;
+	    	return $this->mintzone_url;
 	    }
 	    public function getMerchantKey(){
 	    	return $this->merchantKey;
@@ -43,10 +41,25 @@
 	    	return $this->getUrl('checkout_with_mintzone/response');
 	    }
 	    public function getOrderId(){
-	    	return "abc2123";
+	    	if ($this->_order_id == null)
+	    		$this->_order_id = $this->generate_rand_order(null, 25);
+	    	return $this->_order_id;
 	    }
 	    public function getCheckSum(){
 	    	return $this->checksum();
 	    }
+
+	    private function generate_rand_order($chars = null, $length = 1024) {
+		    if($chars == null) {
+		        $chars = 'aAeEiIoOuUyYabcdefghijkmnopqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ23456789';
+		    }
+
+		    $rand = '';
+		    for($i = 0; $i < $length; $i++) {
+		        $rand .= $chars[ rand(0, strlen($chars) - 1) ];
+		    }
+
+		    return strtoupper(md5($rand));
+		}
 	}
 ?>	

@@ -1,3 +1,11 @@
-<?php
-	echo "Success!";
-?>
+<div>
+	<p style="align:center; text-color: green;">
+		Your transaction has been successfull.
+	</p>
+	<div>
+		<h3>Details:</h3>
+		<p>Order ID: <?= $this->getParam("order_id"); ?></p>
+		<p>MintZone Transaction ID: <?= $this->getParam("txnid"); ?></p>
+		<p>For further Enquiry Please contact: <?= $this->getContactDetails(); ?></p>
+	</div>
+</div>

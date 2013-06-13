@@ -20,6 +20,7 @@
 
         <reference name="content">
             <block type="checkout/response" name="checkout.response">
+                <action method="getContactDetails" />
                 <action method="setSuccessTemplate"><value>mintzone/response/success.phtml</value></action>
                 <action method="setFailureTemplate"><value>mintzone/response/failure.phtml</value></action>
                 <action method="chooseTemplate"/>

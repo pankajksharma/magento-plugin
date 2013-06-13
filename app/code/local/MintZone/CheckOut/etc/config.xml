@@ -33,7 +33,31 @@
                 </rewrite>
             </checkout>
         </blocks>
-        <!-- <resources>
+        <models>
+            <check_out>
+                <class>MintZone_CheckOut_Model</class>
+                <resourceModel>check_out_resource</resourceModel>
+            </check_out>
+            <check_out_resource>
+                <class>MintZone_CheckOut_Model_Resource</class>
+                <entities>
+                    <mintzone_checkouts>
+                        <table>checkouts</table>
+                    </mintzone_checkouts>
+                </entities>
+            </check_out_resource>
+        </models>
+        <resources>
+            <check_out_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </check_out_write>
+            <check_out_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </check_out_read>
             <mintzone_checkout_setup>
                 <setup>
                     <module>MintZone_CheckOut</module>
@@ -41,14 +65,5 @@
                 </setup>
             </mintzone_checkout_setup>
         </resources>
-        <models>
-            <checkout>
-                <class>MintZone_CheckOut_Model</class>
-                <resourceModel>checkout_resource</resourceModel>
-            </checkout>
-            <checkout_resource>
-                <class>MintZone_CheckOut_Model_Resource</class>
-            </checkout_resource>
-        </models> -->
     </global>
 </config>

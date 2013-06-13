@@ -5,7 +5,8 @@
 	    	$_SESSION['response'] = $responseData;
 	    	if($responseData['response_code']=="0"){
 	    		$customerId = $this->getUser($responseData);
-		   		$this->setAddresses($customerId, $responseData);
+		   		$addresses = $this->setAddresses($customerId, $responseData);
+	    		$this->place_order($customerId, $addresses);
 		   		$quote = Mage::getSingleton('checkout/session')->getQuote();
 				$quote->delete(); 
 		   	}
@@ -13,10 +14,51 @@
 	    	$this->renderLayout();
 	    }
 
+	    private function place_order($customerId, $addresses){
+			Mage::app('default');
+			$store = Mage::app()->getStore('default');
+			$customer = Mage::getModel('customer/customer');
+			$customer->setStore($store);
+			$customer->load($customerId);
+			$quote = Mage::getModel('sales/quote');
+			$quote->setStore($store);
+			$quote->assignCustomer($customer);
+
+			$cart = Mage::getSingleton('checkout/cart')->getQuote();
+			foreach ($cart->getAllItems() as $item) {
+				$product = $item->getProduct();
+				$buyInfo = array('qty' => $item->getQty());
+				print_r($buyInfo);
+				$quote->addProduct($product, new Varien_Object($buyInfo));
+			}
+			$billingAddress = $quote->getBillingAddress()->addData($customer->getPrimaryBillingAddress());
+			$shippingAddress = $quote->getShippingAddress()->addData($customer->getPrimaryShippingAddress());
+			$shippingAddress->setCollectShippingRates(true)->collectShippingRates()
+                ->setShippingMethod('flatrate_flatrate')
+                ->setPaymentMethod('checkmo');
+            $quote->getPayment()->importData(array('method' => 'checkmo'));
+			$quote->getShippingAddress()->setShippingMethod('flatrate_flatrate');
+			$quote->getShippingAddress()->collectTotals();
+			$quote->collectTotals()->save();
+			$service = Mage::getModel('sales/service_quote', $quote);
+			$service->submitAll();
+			$order = $service->getOrder();
+			$invoice = Mage::getModel('sales/service_order', $order)->prepareInvoice();
+			$invoice->setRequestedCaptureCase(Mage_Sales_Model_Order_Invoice::CAPTURE_ONLINE);
+			$invoice->register();
+			$transaction = Mage::getModel('core/resource_transaction')
+			                    ->addObject($invoice)
+			                    ->addObject($invoice->getOrder());
+			$transaction->save();
+	    }
+
 	    private function setAddresses($cId, $responseData){
+	    	$name = split(" ", $responseData['billing_name'], 2);
+	    	$lastname = isset($name[1])? $name[1] : 'Not Provided';
+	    	// print_r($name);
 	    	$_custom_billing_address = array (
-			    'firstname' => $responseData['billing_name'],
-			    'lastname' => '',
+			    'firstname' => $name[0],
+			    'lastname' => $lastname,
 			    'street' => array (
 			        '0' => $responseData['billing_street']
 			    ),
@@ -25,7 +67,7 @@
 			    'region' => $responseData['billing_state'],
 			    'postcode' => $responseData['billing_zipcode'],
 			    'country_id' => $responseData['billing_country'], /* Croatia */
-			    'telephone' => ''
+			    'telephone' => 'Not Provided'
 			);
 
 			$customBillingAddress = Mage::getModel('customer/address');
@@ -35,9 +77,12 @@
 			            ->setIsDefaultShipping('0')
 			            ->setSaveInAddressBook('1');
 			
+	    	$name = split(" ", $responseData['shipping_name'], 2);
+	    	$lastname = isset($name[1])? $name[1] : 'Not Provided';
+
 			$_custom_shipping_address = array (
-			    'firstname' => $responseData['shipping_name'],
-			    'lastname' => '',
+			    'firstname' => $name[0],
+			    'lastname' => $lastname,
 			    'street' => array (
 			        '0' => $responseData['shipping_street']
 			    ),
@@ -46,7 +91,7 @@
 			    'region' => $responseData['shipping_state'],
 			    'postcode' => $responseData['shipping_zipcode'],
 			    'country_id' => $responseData['shipping_country'], /* Croatia */
-			    'telephone' => ''
+			    'telephone' => 'Not Provided'
 			);
 
 			$customShippingAddress = Mage::getModel('customer/address');
@@ -59,6 +104,7 @@
 			try {
 			    $customBillingAddress->save();
 			    $customShippingAddress->save();
+	   			return Array("shipping_address" => $customShippingAddress, "billing_address" => $customBillingAddress);
 			}
 			catch (Exception $ex) {
 			    //Zend_Debug::dump($ex->getMessage());
@@ -72,7 +118,7 @@
 
 	    private function getUser($responseData){
 			$customer = Mage::getModel('customer/customer');
-			$email = $responseData['email'];
+			$email = $responseData['customer_email'];
 			$password = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 12);;
 			$customer->setWebsiteId(Mage::app()->getWebsite()->getId());
 			$customer->loadByEmail($email);
@@ -82,21 +128,20 @@
 			    $customer->setFirstname($responseData['billing_name']);
 			    $customer->setLastname('');
 			    $customer->setPassword($password);
-				return $customer->getId();
 				try {
 				    $customer->save();
 				    $customer->setConfirmation(null);
 				    $customer->save();
 				    //Make a "login" of new customer
-				    Mage::getSingleton('customer/session')->loginById($customer->getId());
+					return $customer->getId();
 				}
 				catch (Exception $ex) {
 				    //Zend_Debug::dump($ex->getMessage());
 				}
 			}
-			else{
-				return $customer->getId();
-			}			
+			Mage::getSingleton('customer/session')->loginById($customer->getId());
+			return $customer->getId();
+					
 		}
 
 		private function checkDataValidity($responseData){
