@@ -1,12 +1,9 @@
 <?xml version="1.0"?>
-<!--
-
--->
 <config>
     <modules>
         <MintZone_CheckOut>
             <active>true</active>
-            <codePool>local</codePool>
+            <codePool>community</codePool>
         </MintZone_CheckOut>
     </modules>
 </config>
